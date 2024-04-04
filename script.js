@@ -26,9 +26,24 @@ const generateResponse = (userMessage) => {
         response = "You're welcome!";
     } else if (userMessage.toLowerCase().includes("bye")) {
         response = "Goodbye! Have a great day!";
+    } else if (userMessage.toLowerCase().includes("calculate")) {
+        response = performCalculation(userMessage);
     }
 
     return response;
+};
+
+const performCalculation = (userMessage) => {
+    let result = "Sorry, I couldn't perform the calculation.";
+
+    try {
+        const expression = userMessage.split("calculate")[1].trim();
+        result = eval(expression).toString();
+    } catch (error) {
+        result = "Invalid expression.";
+    }
+
+    return result;
 };
 
 const handleChat = () => {
