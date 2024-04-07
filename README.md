@@ -9,7 +9,7 @@ Intellibot is an interactive chatbot built with JavaScript that provides users w
 - [How to Use](#how-to-use)
 - [Installation](#installation)
 - [Contributing](#contributing)
-- [License](#license)
+
 
 ## Features
 
@@ -37,3 +37,12 @@ Intellibot is an interactive chatbot built with JavaScript that provides users w
 1. **Clone the Repository**: 
    ```bash
    git clone https://github.com/ftashmit/intellibot-chatbot.git
+## Contributing
+We welcome contributions to the Intellibot chatbot project! If you would like to contribute, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch: git checkout -b feature/new-feature.
+3. Make your changes and commit them: git commit -m 'Add new feature'.
+4. Push to the branch: git push origin feature/new-feature.
+5. Submit a pull request.
+For major changes, please open an issue first to discuss the proposed changes.
