@@ -28,4 +28,4 @@ Intellibot is a simple chatbot built with JavaScript that can assist users with 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/intellibot-chatbot.git
+   git clone https://github.com/ftashmit/intellibot-chatbot.git
