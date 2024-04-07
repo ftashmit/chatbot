@@ -65,21 +65,24 @@ const generateResponse = async (userMessage) => {
 };
 
 const searchGoogle = async (query) => {
-    // Here you would implement the code to search Google using a custom search API or web scraping method
-    // and return the search results or a specific answer to the user
-    // For demonstration purposes, let's say we have a function called fetchGoogleResults(query) that fetches search results
-    const results = await fetchGoogleResults(query);
-    if (results && results.length > 0) {
-        return `Here are some Google search results for "${query}": ${results.join(", ")}`;
-    } else {
-        return "I couldn't find any relevant information on Google.";
+    const API_KEY = "AIzaSyBGI87nzRPepRib-K0vk2Oj40KquY9z_fk"; 
+    const SEARCH_ENGINE_ID = "254cd26a4f3554e07";
+    const API_URL = `https://www.googleapis.com/customsearch/v1?q=${query}&key=${API_KEY}&cx=${SEARCH_ENGINE_ID}`;
+    
+    try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        
+        if (data.items && data.items.length > 0) {
+            const searchResults = data.items.map(item => item.title).join(", ");
+            return `Here are some Google search results for "${query}": ${searchResults}`;
+        } else {
+            return "I couldn't find any relevant information on Google.";
+        }
+    } catch (error) {
+        console.error("Error searching Google:", error);
+        return "Oops! Something went wrong while searching Google. Please try again.";
     }
-};
-
-const fetchGoogleResults = async (query) => {
-    // Implement the code to fetch search results from Google
-    // This is just a placeholder and you would need to replace it with the actual implementation
-    return ["Result 1", "Result 2", "Result 3"];
 };
 
 const performCalculation = (userMessage) => {
@@ -93,20 +96,6 @@ const performCalculation = (userMessage) => {
     return result;
 };
 
-// Example usage
-const handleUserMessage = async () => {
-    const userMessage = "hello"; // Replace with user input
-    try {
-        const response = await generateResponse(userMessage);
-        console.log(response); // Output the response from the chatbot
-    } catch (error) {
-        console.error("Error:", error); // Output any errors that occurred
-    }
-};
-
-handleUserMessage();
-
-
 const handleChat = async () => {
     const userMessage = chatInput.value.trim();
     if (!userMessage) return;
@@ -119,15 +108,26 @@ const handleChat = async () => {
     chatbox.scrollTo(0, chatbox.scrollHeight);
 
     try {
-        const responseMessage = await generateResponse(userMessage); // Wait for the Promise to resolve
+        const responseMessage = await generateResponse(userMessage);
         const responseElement = createChatLi(responseMessage, "incoming");
         chatbox.appendChild(responseElement);
         chatbox.scrollTo(0, chatbox.scrollHeight);
     } catch (error) {
-        console.error("Error:", error); // Output any errors that occurred
+        console.error("Error:", error);
     }
 };
 
+chatInput.addEventListener("input", () => {
+    chatInput.style.height = `${inputInitHeight}px`;
+    chatInput.style.height = `${chatInput.scrollHeight}px`;
+});
+
+chatInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey && window.innerWidth > 800) {
+        e.preventDefault();
+        handleChat();
+    }
+});
 
 sendChatBtn.addEventListener("click", handleChat);
 closeBtn.addEventListener("click", () => document.body.classList.remove("show-chatbot"));
